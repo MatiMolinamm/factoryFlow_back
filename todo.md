@@ -1,1 +1,1 @@
-01- seguir pasos del readme de mern back
+seguir el crud de packaginf y producto
