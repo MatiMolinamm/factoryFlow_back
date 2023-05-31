@@ -2,11 +2,20 @@ const { Router } = require("express");
 const {
   materiaPrimaCreate,
   materiaPrimaGet,
-  materiaPrimaDelete,
   materiaPrimaUp,
+  materiaPrimaDelete,
   insumoCreate,
+  insumoGet,
+  insumoUp,
+  insumoDelete,
   packagingCreate,
+  packagingGet,
+  packagingUp,
+  packagingDelete,
   productoCreate,
+  productoGet,
+  productoUp,
+  productoDelete,
 } = require("../controllers/factory");
 
 const router = Router();
@@ -16,20 +25,19 @@ router.post("/mp", materiaPrimaCreate);
 router.put("/mp/:id", materiaPrimaUp);
 router.delete("/mp/:id", materiaPrimaDelete);
 
-router.get("/insumo",insumoGet);
+router.get("/insumo", insumoGet);
 router.post("/insumo", insumoCreate);
 router.put("/insumo/:id", insumoUp);
 router.delete("/insumo/:id", insumoDelete);
 
-router.get("/packaging",packagingGet);
+router.get("/packaging", packagingGet);
 router.post("/packaging", packagingCreate);
 router.put("/packaging/:id", packagingUp);
 router.delete("/packaging/:id", packagingDelete);
 
-router.get("/producto",productoGet);
+router.get("/producto", productoGet);
 router.post("/producto", productoCreate);
 router.put("/producto/:id", productoUp);
 router.delete("/producto/:id", productoDelete);
-
 
 module.exports = router;

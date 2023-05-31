@@ -6,11 +6,13 @@ const {
 } = require("../models/index");
 
 const materiaPrimaGet = async (req, res) => {
-  const mp = await MateriaPrima.find();
+  const materias_primas = await MateriaPrima.find();
+  const count = materias_primas.length;
 
   res.json({
     ok: true,
-    mp,
+    count,
+    materias_primas,
   });
 };
 
@@ -18,11 +20,11 @@ const materiaPrimaCreate = async (req, res) => {
   const mp = new MateriaPrima(req.body);
 
   try {
-    const mpGuardado = await mp.save();
+    const mp_guardado = await mp.save();
 
     res.json({
       ok: true,
-      mp: mpGuardado,
+      mp_guardado,
     });
   } catch (error) {
     console.log(error);
@@ -50,13 +52,13 @@ const materiaPrimaUp = async (req, res) => {
       ...req.body,
     };
 
-    const mpActualizado = await MateriaPrima.findByIdAndUpdate(mpId, newMp, {
+    const mp_actualizado = await MateriaPrima.findByIdAndUpdate(mpId, newMp, {
       new: true,
     });
 
     res.json({
       ok: true,
-      evento: mpActualizado,
+      mp_actualizado,
     });
   } catch (error) {
     console.log(error);
@@ -80,7 +82,7 @@ const materiaPrimaDelete = async (req, res) => {
       });
     }
 
-    await Evento.findByIdAndDelete(mpId);
+    await MateriaPrima.findByIdAndDelete(mpId);
 
     res.json({ ok: true });
   } catch (error) {
@@ -93,9 +95,11 @@ const materiaPrimaDelete = async (req, res) => {
 };
 const insumoGet = async (req, res) => {
   const insumos = await Insumo.find();
+  const count = insumos.length;
 
   res.json({
     ok: true,
+    count,
     insumos,
   });
 };
@@ -104,11 +108,11 @@ const insumoCreate = async (req, res) => {
   const insumo = new Insumo(req.body);
 
   try {
-    const insumoGuardado = await insumo.save();
+    const insumo_guardado = await insumo.save();
 
     res.json({
       ok: true,
-      mp: insumoGuardado,
+      insumo_guardado,
     });
   } catch (error) {
     console.log(error);
@@ -124,24 +128,28 @@ const insumoUp = async (req, res) => {
   try {
     const insumo = await Insumo.findById(insumoId);
 
-    if (!mp) {
+    if (!insumo) {
       return res.status(404).json({
         ok: false,
         msg: "No existe por ese id",
       });
     }
 
-    const newMp = {
+    const newInsumo = {
       ...req.body,
     };
 
-    const mpActualizado = await MateriaPrima.findByIdAndUpdate(mpId, newMp, {
-      new: true,
-    });
+    const insumo_actualizado = await Insumo.findByIdAndUpdate(
+      insumoId,
+      newInsumo,
+      {
+        new: true,
+      }
+    );
 
     res.json({
       ok: true,
-      evento: mpActualizado,
+      insumo_actualizado,
     });
   } catch (error) {
     console.log(error);
@@ -156,7 +164,7 @@ const insumoDelete = async (req, res) => {
   const insumoId = req.params.id;
 
   try {
-    const insumo = await MateriaPrima.findById(insumoId);
+    const insumo = await Insumo.findById(insumoId);
 
     if (!insumo) {
       return res.status(404).json({
@@ -165,7 +173,94 @@ const insumoDelete = async (req, res) => {
       });
     }
 
-    await Evento.findByIdAndDelete(insumo);
+    await Insumo.findByIdAndDelete(insumoId);
+
+    res.json({ ok: true });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Hable con el administrador",
+    });
+  }
+};
+const packagingGet = async (req, res) => {
+  const packaging = await Packaging.find();
+  const count= packaging.length;
+
+  res.json({
+    ok: true,
+    count,
+    packaging
+  });
+};
+const packagingCreate = async (req, res) => {
+  const pack = new Packaging(req.body);
+
+  try {
+    const packaging_guardado = await pack.save();
+
+    res.json({
+      ok: true,
+      packaging_guardado,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Hable con el administrador",
+    });
+  }
+};
+
+const packagingUp = async (req, res) => {
+  const packId = req.params.id;
+
+  try {
+    const pack = await Packaging.findById(packId);
+
+    if (!pack) {
+      return res.status(404).json({
+        ok: false,
+        msg: "No existe por ese id",
+      });
+    }
+
+    const newPack = {
+      ...req.body,
+    };
+
+    const packaging_actualizado = await Packaging.findByIdAndUpdate(packId, newPack, {
+      new: true,
+    });
+
+    res.json({
+      ok: true,
+      packaging_actualizado,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Hable con el administrador",
+    });
+  }
+};
+
+const packagingDelete = async (req, res) => {
+  const packId = req.params.id;
+
+  try {
+    const pack = await Packaging.findById(packId);
+
+    if (!pack) {
+      return res.status(404).json({
+        ok: false,
+        msg: "No existe por ese id",
+      });
+    }
+
+    await Packaging.findByIdAndDelete(packId);
 
     res.json({ ok: true });
   } catch (error) {
@@ -177,15 +272,26 @@ const insumoDelete = async (req, res) => {
   }
 };
 
-const packagingCreate = async (req, res) => {
-  const pack = new Packaging(req.body);
+const productoGet = async (req, res) => {
+  const productos = await Producto.find();
+  const count= productos.length;
+
+  res.json({
+    ok: true,
+    count,
+    productos
+  });
+};
+
+const productoCreate = async (req, res) => {
+  const prod = new Producto(req.body);
 
   try {
-    const packGuardado = await pack.save();
+    const producto_guardado = await prod.save();
 
     res.json({
       ok: true,
-      mp: packGuardado,
+      producto_guardado
     });
   } catch (error) {
     console.log(error);
@@ -195,16 +301,61 @@ const packagingCreate = async (req, res) => {
     });
   }
 };
-const productoCreate = async (req, res) => {
-  const prod = new Producto(req.body);
+
+const productoUp = async (req, res) => {
+  const prodId = req.params.id;
 
   try {
-    const prodGuardado = await prod.save();
+    const prod = await Producto.findById(prodId);
+
+    if (!prod) {
+      return res.status(404).json({
+        ok: false,
+        msg: "No existe por ese id",
+      });
+    }
+
+    const newProd = {
+      ...req.body,
+    };
+
+    const producto_actualizado = await Producto.findByIdAndUpdate(
+      prodId,
+      newProd,
+      {
+        new: true,
+      }
+    );
 
     res.json({
       ok: true,
-      mp: prodGuardado,
+      producto_actualizado
     });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: "Hable con el administrador",
+    });
+  }
+};
+
+const productoDelete = async (req, res) => {
+  const prodId = req.params.id;
+
+  try {
+    const prod = await Producto.findById(prodId);
+
+    if (!prod) {
+      return res.status(404).json({
+        ok: false,
+        msg: "No existe por ese id",
+      });
+    }
+
+    await Producto.findByIdAndDelete(prodId);
+
+    res.json({ ok: true });
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -220,6 +371,15 @@ module.exports = {
   materiaPrimaUp,
   materiaPrimaDelete,
   insumoCreate,
+  insumoGet,
+  insumoUp,
+  insumoDelete,
   packagingCreate,
+  packagingGet,
+  packagingUp,
+  packagingDelete,
   productoCreate,
+  productoGet,
+  productoUp,
+  productoDelete,
 };
