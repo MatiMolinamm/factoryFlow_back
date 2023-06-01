@@ -186,12 +186,12 @@ const insumoDelete = async (req, res) => {
 };
 const packagingGet = async (req, res) => {
   const packaging = await Packaging.find();
-  const count= packaging.length;
+  const count = packaging.length;
 
   res.json({
     ok: true,
     count,
-    packaging
+    packaging,
   });
 };
 const packagingCreate = async (req, res) => {
@@ -230,9 +230,13 @@ const packagingUp = async (req, res) => {
       ...req.body,
     };
 
-    const packaging_actualizado = await Packaging.findByIdAndUpdate(packId, newPack, {
-      new: true,
-    });
+    const packaging_actualizado = await Packaging.findByIdAndUpdate(
+      packId,
+      newPack,
+      {
+        new: true,
+      }
+    );
 
     res.json({
       ok: true,
@@ -274,24 +278,31 @@ const packagingDelete = async (req, res) => {
 
 const productoGet = async (req, res) => {
   const productos = await Producto.find();
-  const count= productos.length;
+  const count = productos.length;
 
   res.json({
     ok: true,
     count,
-    productos
+    productos,
   });
 };
 
 const productoCreate = async (req, res) => {
   const prod = new Producto(req.body);
-
+  const lote = req.body.lote;
   try {
+    const loteExistente = await Producto.findOne({ lote });
+    if (loteExistente) {
+      return res.status(404).json({
+        ok: false,
+        msg: "Ya existe ese producto",
+      });
+    }
     const producto_guardado = await prod.save();
 
     res.json({
       ok: true,
-      producto_guardado
+      producto_guardado,
     });
   } catch (error) {
     console.log(error);
@@ -329,7 +340,7 @@ const productoUp = async (req, res) => {
 
     res.json({
       ok: true,
-      producto_actualizado
+      producto_actualizado,
     });
   } catch (error) {
     console.log(error);

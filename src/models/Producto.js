@@ -9,11 +9,15 @@ const ProductoSchema = Schema({
     type: String,
     required: true,
   },
-  costo: {
+  costo_kg: {
     type: Number,
     required: true,
   },
-  proveedor: {
+  costo_venta: {
+    type: Number,
+    required: true,
+  },
+  lote: {
     type: String,
     required: true,
   },

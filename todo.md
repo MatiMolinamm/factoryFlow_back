@@ -1,1 +1,4 @@
-seguir el crud de packaginf y producto
+-definir bien form de insumos y mp
+-hacer el crud de produccion
+
+

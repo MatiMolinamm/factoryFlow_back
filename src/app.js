@@ -1,8 +1,7 @@
 // Required modules
 const express = require("express");
-require('dotenv').config();
-const {dbConnection}=require('./database/config');
-
+require("dotenv").config();
+const { dbConnection } = require("./database/config");
 
 const app = express();
 const methodOverride = require("method-override"); //para poder utilizar PUT Y DELETE
@@ -33,9 +32,12 @@ app.use((req, res, next) => {
 
 //Routes
 
-
 //app.use('/api/auth', require('./routes/auth') );
 app.use("/api/production", factory);
-app.use('/', (req,res)=>{res.send(`factoryFlow corriendo en puerto ${process.env.PORT}`)})
+app.use("/", (req, res) => {
+  res.send(`factoryFlow corriendo en puerto ${process.env.PORT}`);
+});
 
-app.listen(process.env.PORT, () => console.log(`factoryFlow corriendo en puerto ${process.env.PORT}`));
+app.listen(process.env.PORT, () =>
+  console.log(`factoryFlow corriendo en puerto ${process.env.PORT}`)
+);

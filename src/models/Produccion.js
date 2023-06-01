@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
-const MateriaPrimaSchema = Schema({
-  nombre: {
+const ProduccionSchema = Schema({
+  producto: {
     type: String,
     required: true,
   },
@@ -13,10 +13,6 @@ const MateriaPrimaSchema = Schema({
     type: Number,
     required: true,
   },
-  proveedor: {
-    type: String,
-    required: true,
-  },
   categoria: {
     type: String,
     required: true,
@@ -25,12 +21,16 @@ const MateriaPrimaSchema = Schema({
     type: Number,
     required: true,
   },
+  lote: {
+    type: String,
+    required: true,
+  },
 });
 
-MateriaPrimaSchema.method("toJSON", function () {
+ProduccionSchema.method("toJSON", function () {
   const { __v, _id, ...object } = this.toObject();
   object.id = _id;
   return object;
 });
 
-module.exports = model("MateriaPrima", MateriaPrimaSchema);
+module.exports = model("Produccion", ProduccionSchema);
